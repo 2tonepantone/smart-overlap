@@ -1,4 +1,3 @@
-
 .availabilityInput {
   margin-top: 1.5rem;
 }
@@ -15,7 +14,7 @@
   align-items: center;
 }
 
-.dayRow input[type="checkbox"] {
+.dayRow input[type='checkbox'] {
   margin-right: 10px;
 }
 
@@ -24,7 +23,7 @@
   align-items: center;
 }
 
-.timeInputs input[type="time"] {
+.timeInputs input[type='time'] {
   margin: 0 5px;
   padding: 4px 8px;
   border: 1px solid #ccc;
@@ -32,5 +31,5 @@
 }
 
 .timeInputs span {
-    color: #888;
+  color: #888;
 }

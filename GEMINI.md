@@ -2,12 +2,12 @@ Project: Smart Overlap Scheduler - MVP Context
 This GEMINI.md file serves as the primary and persistent context for the Gemini AI agent working on the "Smart Overlap Scheduler" web application. Its purpose is to ensure consistent understanding of the project's goals, scope, and technical conventions across all interactions.
 
 1. Project Overview
-Goal: To develop a minimalist, intuitive web application that allows users to manually manage and visually discover optimal overlapping availability windows for themselves and their contacts across various time zones.
+   Goal: To develop a minimalist, intuitive web application that allows users to manually manage and visually discover optimal overlapping availability windows for themselves and their contacts across various time zones.
 
 Core Problem Solved (MVP): Eliminating the manual mental arithmetic and back-and-forth communication required to find suitable times for international conversations, meetings, or social calls, purely based on declared availability.
 
 2. Minimum Viable Product (MVP) Scope
-The MVP focuses on delivering the absolute core value proposition with the fewest external dependencies.
+   The MVP focuses on delivering the absolute core value proposition with the fewest external dependencies.
 
 2.1. Key Functionality:
 Self-Defined Availability: Users can set their own current time zone and define their typical daily/weekly availability (e.g., "Monday-Friday, 9 AM to 5 PM").
@@ -40,7 +40,7 @@ NO Advanced Event Overlays: Features like real-time financial market hours, publ
 NO Meeting Invitation/Polling Tools: The "propose time" is a simple text output.
 
 3. Technical Stack & Conventions
-Frontend Framework: React (using Vite for project setup and development).
+   Frontend Framework: React (using Vite for project setup and development).
 
 Language: JavaScript (ES6+).
 
@@ -61,7 +61,7 @@ hooks/: (Optional, if custom hooks become necessary)
 Code Quality: Prioritize clean, readable, modular code with appropriate comments for complex logic.
 
 4. Gemini AI Interaction Directives
-Refer to this GEMINI.md: Always use this document as the primary source of truth for project scope and technical decisions.
+   Refer to this GEMINI.md: Always use this document as the primary source of truth for project scope and technical decisions.
 
 Task-Oriented Output: Provide code and explanations for one checklist item at a time.
 

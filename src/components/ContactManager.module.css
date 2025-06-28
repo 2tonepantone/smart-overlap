@@ -1,4 +1,3 @@
-
 .contactManager {
   margin-top: 2rem;
 }
@@ -11,7 +10,7 @@
   background-color: #fafafa;
 }
 
-.addContactForm input[type="text"] {
+.addContactForm input[type='text'] {
   width: 100%;
   padding: 8px 12px;
   margin-bottom: 1rem;

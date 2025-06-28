@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import styles from './ContactManager.module.css';
 import TimeZoneSelect from './TimeZoneSelect.tsx';
@@ -12,7 +11,12 @@ interface ContactManagerProps {
   onDelete: (contactId: string) => void;
 }
 
-const ContactManager: React.FC<ContactManagerProps> = ({ contacts, onAdd, onUpdate, onDelete }) => {
+const ContactManager: React.FC<ContactManagerProps> = ({
+  contacts,
+  onAdd,
+  onUpdate,
+  onDelete,
+}) => {
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [editingContact, setEditingContact] = useState<Person | null>(null);
 
@@ -47,7 +51,7 @@ const ContactManager: React.FC<ContactManagerProps> = ({ contacts, onAdd, onUpda
     setTimeZone(contact.timeZone);
     setAvailability(contact.availability);
     setIsAdding(true);
-  }
+  };
 
   return (
     <div className={styles.contactManager}>
@@ -60,8 +64,14 @@ const ContactManager: React.FC<ContactManagerProps> = ({ contacts, onAdd, onUpda
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <TimeZoneSelect selectedTimeZone={timeZone} onChange={(e) => setTimeZone(e.target.value)} />
-          <AvailabilityInput availability={availability} onChange={setAvailability} />
+          <TimeZoneSelect
+            selectedTimeZone={timeZone}
+            onChange={(e) => setTimeZone(e.target.value)}
+          />
+          <AvailabilityInput
+            availability={availability}
+            onChange={setAvailability}
+          />
           <button onClick={handleSave}>Save</button>
           <button onClick={handleCancel}>Cancel</button>
         </div>
@@ -70,7 +80,7 @@ const ContactManager: React.FC<ContactManagerProps> = ({ contacts, onAdd, onUpda
       )}
 
       <div className={styles.contactList}>
-        {contacts.map(contact => (
+        {contacts.map((contact) => (
           <div key={contact.id} className={styles.contactCard}>
             <h3>{contact.name}</h3>
             <p>Time Zone: {contact.timeZone}</p>

@@ -1,4 +1,3 @@
-
 export const loadState = <T>(key: string): T | undefined => {
   try {
     const serializedState = localStorage.getItem(key);
@@ -7,7 +6,7 @@ export const loadState = <T>(key: string): T | undefined => {
     }
     return JSON.parse(serializedState) as T;
   } catch (err) {
-    console.error("Could not load state", err);
+    console.error('Could not load state', err);
     return undefined;
   }
 };
@@ -17,6 +16,6 @@ export const saveState = <T>(key: string, state: T): void => {
     const serializedState = JSON.stringify(state);
     localStorage.setItem(key, serializedState);
   } catch (err) {
-    console.error("Could not save state", err);
+    console.error('Could not save state', err);
   }
 };

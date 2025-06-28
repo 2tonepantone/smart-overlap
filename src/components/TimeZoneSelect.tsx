@@ -18,12 +18,23 @@ interface TimeZoneSelectProps {
   onChange: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
-const TimeZoneSelect: React.FC<TimeZoneSelectProps> = ({ selectedTimeZone, onChange }) => {
+const TimeZoneSelect: React.FC<TimeZoneSelectProps> = ({
+  selectedTimeZone,
+  onChange,
+}) => {
   return (
-    <select value={selectedTimeZone} onChange={onChange} className={styles.timeZoneSelect}>
-      <option value="" disabled>Select your time zone</option>
-      {timeZones.map(tz => (
-        <option key={tz} value={tz}>{tz}</option>
+    <select
+      value={selectedTimeZone}
+      onChange={onChange}
+      className={styles.timeZoneSelect}
+    >
+      <option value="" disabled>
+        Select your time zone
+      </option>
+      {timeZones.map((tz) => (
+        <option key={tz} value={tz}>
+          {tz}
+        </option>
       ))}
     </select>
   );

@@ -9,15 +9,22 @@ interface TimeProposerModalProps {
   onCopy: () => void;
 }
 
-const TimeProposerModal: React.FC<TimeProposerModalProps> = ({ selectedTime, people, onClose, onCopy }) => {
+const TimeProposerModal: React.FC<TimeProposerModalProps> = ({
+  selectedTime,
+  people,
+  onClose,
+  onCopy,
+}) => {
   if (!selectedTime) {
     return null;
   }
 
-  const proposalText = people.map(person => {
-    const localTime = selectedTime.setZone(person.timeZone);
-    return `${person.name}: ${localTime.toLocaleString(DateTime.DATETIME_FULL)}`;
-  }).join('\n');
+  const proposalText = people
+    .map((person) => {
+      const localTime = selectedTime.setZone(person.timeZone);
+      return `${person.name}: ${localTime.toLocaleString(DateTime.DATETIME_FULL)}`;
+    })
+    .join('\n');
 
   const handleCopy = () => {
     navigator.clipboard.writeText(proposalText);
@@ -26,7 +33,7 @@ const TimeProposerModal: React.FC<TimeProposerModalProps> = ({ selectedTime, peo
 
   return (
     <div className={styles.modalBackdrop} onClick={onClose}>
-      <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <h2>Proposed Time</h2>
         <pre>{proposalText}</pre>
         <div className={styles.modalActions}>
@@ -39,4 +46,3 @@ const TimeProposerModal: React.FC<TimeProposerModalProps> = ({ selectedTime, peo
 };
 
 export default TimeProposerModal;
-

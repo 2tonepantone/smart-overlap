@@ -19,7 +19,9 @@ const OverlapGrid: React.FC<OverlapGridProps> = ({ people, days = 7 }) => {
 
   const timeSlots = generateTimeSlots();
   const today = DateTime.now();
-  const weekDates = Array.from({ length: days }, (_, i) => today.plus({ days: i }));
+  const weekDates = Array.from({ length: days }, (_, i) =>
+    today.plus({ days: i }),
+  );
 
   const getCellClass = (availableCount: number): string => {
     if (availableCount === people.length) {
@@ -45,41 +47,55 @@ const OverlapGrid: React.FC<OverlapGridProps> = ({ people, days = 7 }) => {
           <thead>
             <tr>
               <th className={styles.personHeader}>Person</th>
-              {timeSlots.map(slot => (
+              {timeSlots.map((slot) => (
                 <th key={slot}>{slot}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {weekDates.map(date => {
-              const availabilityBySlot = timeSlots.map(slot => {
+            {weekDates.map((date) => {
+              const availabilityBySlot = timeSlots.map((slot) => {
                 const [hour, minute] = slot.split(':').map(Number);
                 const dt = date.set({ hour, minute });
-                return people.filter(person => isAvailable(person, dt)).length;
+                return people.filter((person) => isAvailable(person, dt))
+                  .length;
               });
 
               return (
                 <React.Fragment key={date.toISODate()}>
                   <tr>
-                    <td colSpan={timeSlots.length + 1} className={styles.dateHeader}>
+                    <td
+                      colSpan={timeSlots.length + 1}
+                      className={styles.dateHeader}
+                    >
                       {date.toLocaleString(DateTime.DATE_FULL)}
                     </td>
                   </tr>
                   <tr className={styles.summaryRow}>
                     <td className={styles.personHeader}>Overlap</td>
                     {availabilityBySlot.map((count, index) => (
-                      <td key={index} className={`${styles.summaryCell} ${getCellClass(count)}`} onClick={() => handleCellClick(date, timeSlots[index])}></td>
+                      <td
+                        key={index}
+                        className={`${styles.summaryCell} ${getCellClass(count)}`}
+                        onClick={() => handleCellClick(date, timeSlots[index])}
+                      ></td>
                     ))}
                   </tr>
-                  {people.map(person => (
+                  {people.map((person) => (
                     <tr key={person.id || 'self'}>
                       <td className={styles.personHeader}>{person.name}</td>
-                      {timeSlots.map(slot => {
+                      {timeSlots.map((slot) => {
                         const [hour, minute] = slot.split(':').map(Number);
                         const dt = date.set({ hour, minute });
                         const available = isAvailable(person, dt);
                         return (
-                          <td key={slot} className={available ? styles.available : styles.unavailable} onClick={() => handleCellClick(date, slot)}></td>
+                          <td
+                            key={slot}
+                            className={
+                              available ? styles.available : styles.unavailable
+                            }
+                            onClick={() => handleCellClick(date, slot)}
+                          ></td>
                         );
                       })}
                     </tr>

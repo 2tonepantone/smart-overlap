@@ -1,8 +1,15 @@
-
 import React from 'react';
 import styles from './AvailabilityInput.module.css';
 
-const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const daysOfWeek = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
 
 import { Availability } from '../types/types';
 
@@ -11,7 +18,10 @@ interface AvailabilityInputProps {
   onChange: (availability: Availability) => void;
 }
 
-const AvailabilityInput: React.FC<AvailabilityInputProps> = ({ availability, onChange }) => {
+const AvailabilityInput: React.FC<AvailabilityInputProps> = ({
+  availability,
+  onChange,
+}) => {
   const handleDayChange = (day: string) => {
     const newAvailability = { ...availability };
     if (newAvailability[day]) {
@@ -22,7 +32,11 @@ const AvailabilityInput: React.FC<AvailabilityInputProps> = ({ availability, onC
     onChange(newAvailability);
   };
 
-  const handleTimeChange = (day: string, timeType: 'start' | 'end', value: string) => {
+  const handleTimeChange = (
+    day: string,
+    timeType: 'start' | 'end',
+    value: string,
+  ) => {
     const newAvailability = { ...availability };
     newAvailability[day][timeType] = value;
     onChange(newAvailability);
@@ -31,7 +45,7 @@ const AvailabilityInput: React.FC<AvailabilityInputProps> = ({ availability, onC
   return (
     <div className={styles.availabilityInput}>
       <h3>Your Availability</h3>
-      {daysOfWeek.map(day => (
+      {daysOfWeek.map((day) => (
         <div key={day} className={styles.dayRow}>
           <label>
             <input
