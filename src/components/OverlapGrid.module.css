@@ -1,0 +1,79 @@
+
+.gridContainer {
+    margin-top: 2rem;
+}
+
+.gridScrollWrapper {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.overlapGrid {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1200px; /* Ensure there's enough space for time slots */
+}
+
+.overlapGrid th, .overlapGrid td {
+    border: 1px solid #ddd;
+    padding: 4px;
+    text-align: center;
+    font-size: 12px;
+    min-width: 50px;
+}
+
+.overlapGrid th {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.dateHeader {
+    background-color: #e9ecef;
+    font-weight: bold;
+    text-align: left !important;
+    padding: 8px 12px !important;
+    position: sticky;
+    top: 38px; /* Height of the time slot headers */
+    z-index: 2;
+}
+
+.personHeader {
+    font-weight: bold;
+    text-align: left !important;
+    padding: 8px 12px !important;
+    position: sticky;
+    left: 0;
+    background-color: #f8f9fa;
+    z-index: 1;
+}
+
+.available {
+    background-color: #d4edda; /* Light green */
+}
+
+.unavailable {
+    background-color: #f8d7da; /* Light red */
+}
+
+.summaryRow td {
+    height: 10px; /* Make summary cells shorter */
+    padding: 0;
+}
+
+.summaryCell {
+    border: none !important;
+}
+
+.allAvailable {
+    background-color: #28a745; /* Green */
+}
+
+.someAvailable {
+    background-color: #ffc107; /* Yellow */
+}
+
+.noneAvailable {
+    background-color: #dc3545; /* Red */
+}

@@ -1,0 +1,36 @@
+
+.availabilityInput {
+  margin-top: 1.5rem;
+}
+
+.dayRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.dayRow label {
+  width: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.dayRow input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.timeInputs {
+  display: flex;
+  align-items: center;
+}
+
+.timeInputs input[type="time"] {
+  margin: 0 5px;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.timeInputs span {
+    color: #888;
+}
