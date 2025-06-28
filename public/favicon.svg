@@ -1,0 +1,19 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Clean, neutral background -->
+  <rect width="64" height="64" fill="#F8F8F8"/>
+
+  <!-- Main Clock Shape (large, central, clear) -->
+  <circle cx="32" cy="32" r="28" fill="#FFFFFF" stroke="#D3D3D3" stroke-width="1.5"/>
+
+  <!-- Simplified Clock Hands - positioned to suggest "past/future" or "now" -->
+  <!-- Hour Hand -->
+  <rect x="30.5" y="18" width="3" height="15" rx="1.5" fill="#607D8B" transform="rotate(30 32 32)"/>
+  <!-- Minute Hand -->
+  <rect x="31" y="10" width="2" height="22" rx="1" fill="#78909C" transform="rotate(120 32 32)"/>
+  <!-- Center dot for hands -->
+  <circle cx="32" cy="32" r="2.5" fill="#263238"/>
+
+  <!-- Overlap / Connection Symbol - a subtle, flowing arrow or arc -->
+  <path d="M12 40 C 20 48, 44 48, 52 40" stroke="#80CBC4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M52 40 L48 36 M52 40 L48 44" stroke="#80CBC4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
