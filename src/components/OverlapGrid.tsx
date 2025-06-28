@@ -1,12 +1,17 @@
-
 import React, { useState } from 'react';
 import styles from './OverlapGrid.module.css';
 import { DateTime } from 'luxon';
-import { generateTimeSlots, isAvailable } from '../utils/timeUtils';
-import TimeProposerModal from './TimeProposerModal';
+import { generateTimeSlots, isAvailable } from '../utils/timeUtils.ts';
+import TimeProposerModal from './TimeProposerModal.tsx';
+import { Person } from '../types/types';
 
-const OverlapGrid = ({ people, days = 7 }) => {
-  const [selectedTime, setSelectedTime] = useState(null);
+interface OverlapGridProps {
+  people: Person[];
+  days?: number;
+}
+
+const OverlapGrid: React.FC<OverlapGridProps> = ({ people, days = 7 }) => {
+  const [selectedTime, setSelectedTime] = useState<DateTime | null>(null);
 
   if (!people || people.length === 0) {
     return <p>Add yourself and some contacts to see the overlap.</p>;
@@ -16,7 +21,7 @@ const OverlapGrid = ({ people, days = 7 }) => {
   const today = DateTime.now();
   const weekDates = Array.from({ length: days }, (_, i) => today.plus({ days: i }));
 
-  const getCellClass = (availableCount) => {
+  const getCellClass = (availableCount: number): string => {
     if (availableCount === people.length) {
       return styles.allAvailable; // Green
     }
@@ -26,7 +31,7 @@ const OverlapGrid = ({ people, days = 7 }) => {
     return styles.noneAvailable; // Red/Grey
   };
 
-  const handleCellClick = (date, slot) => {
+  const handleCellClick = (date: DateTime, slot: string) => {
     const [hour, minute] = slot.split(':').map(Number);
     const dt = date.set({ hour, minute });
     setSelectedTime(dt);
@@ -61,10 +66,10 @@ const OverlapGrid = ({ people, days = 7 }) => {
                     </td>
                   </tr>
                   <tr className={styles.summaryRow}>
-                     <td className={styles.personHeader}>Overlap</td>
-                     {availabilityBySlot.map((count, index) => (
-                        <td key={index} className={`${styles.summaryCell} ${getCellClass(count)}`} onClick={() => handleCellClick(date, timeSlots[index])}></td>
-                     ))}
+                    <td className={styles.personHeader}>Overlap</td>
+                    {availabilityBySlot.map((count, index) => (
+                      <td key={index} className={`${styles.summaryCell} ${getCellClass(count)}`} onClick={() => handleCellClick(date, timeSlots[index])}></td>
+                    ))}
                   </tr>
                   {people.map(person => (
                     <tr key={person.id || 'self'}>
@@ -85,10 +90,10 @@ const OverlapGrid = ({ people, days = 7 }) => {
           </tbody>
         </table>
       </div>
-      <TimeProposerModal 
-        selectedTime={selectedTime} 
-        people={people} 
-        onClose={() => setSelectedTime(null)} 
+      <TimeProposerModal
+        selectedTime={selectedTime}
+        people={people}
+        onClose={() => setSelectedTime(null)}
         onCopy={() => alert('Copied to clipboard!')}
       />
     </div>

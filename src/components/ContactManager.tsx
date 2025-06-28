@@ -1,16 +1,24 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './ContactManager.module.css';
-import TimeZoneSelect from './TimeZoneSelect';
-import AvailabilityInput from './AvailabilityInput';
+import TimeZoneSelect from './TimeZoneSelect.tsx';
+import AvailabilityInput from './AvailabilityInput.tsx';
+import { Person, Availability } from '../types/types';
 
-const ContactManager = ({ contacts, onAdd, onUpdate, onDelete }) => {
-  const [isAdding, setIsAdding] = useState(false);
-  const [editingContact, setEditingContact] = useState(null);
+interface ContactManagerProps {
+  contacts: Person[];
+  onAdd: (contact: Person) => void;
+  onUpdate: (contact: Person) => void;
+  onDelete: (contactId: string) => void;
+}
 
-  const [name, setName] = useState('');
-  const [timeZone, setTimeZone] = useState('');
-  const [availability, setAvailability] = useState({});
+const ContactManager: React.FC<ContactManagerProps> = ({ contacts, onAdd, onUpdate, onDelete }) => {
+  const [isAdding, setIsAdding] = useState<boolean>(false);
+  const [editingContact, setEditingContact] = useState<Person | null>(null);
+
+  const [name, setName] = useState<string>('');
+  const [timeZone, setTimeZone] = useState<string>('');
+  const [availability, setAvailability] = useState<Availability>({});
 
   const handleAddClick = () => {
     setIsAdding(true);
@@ -28,12 +36,12 @@ const ContactManager = ({ contacts, onAdd, onUpdate, onDelete }) => {
     if (editingContact) {
       onUpdate({ ...editingContact, name, timeZone, availability });
     } else {
-      onAdd({ id: Date.now(), name, timeZone, availability });
+      onAdd({ id: Date.now().toString(), name, timeZone, availability });
     }
     handleCancel();
   };
 
-  const handleEdit = (contact) => {
+  const handleEdit = (contact: Person) => {
     setEditingContact(contact);
     setName(contact.name);
     setTimeZone(contact.timeZone);

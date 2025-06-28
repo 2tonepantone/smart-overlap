@@ -4,8 +4,15 @@ import styles from './AvailabilityInput.module.css';
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-const AvailabilityInput = ({ availability, onChange }) => {
-  const handleDayChange = (day) => {
+import { Availability } from '../types/types';
+
+interface AvailabilityInputProps {
+  availability: Availability;
+  onChange: (availability: Availability) => void;
+}
+
+const AvailabilityInput: React.FC<AvailabilityInputProps> = ({ availability, onChange }) => {
+  const handleDayChange = (day: string) => {
     const newAvailability = { ...availability };
     if (newAvailability[day]) {
       delete newAvailability[day];
@@ -15,7 +22,7 @@ const AvailabilityInput = ({ availability, onChange }) => {
     onChange(newAvailability);
   };
 
-  const handleTimeChange = (day, timeType, value) => {
+  const handleTimeChange = (day: string, timeType: 'start' | 'end', value: string) => {
     const newAvailability = { ...availability };
     newAvailability[day][timeType] = value;
     onChange(newAvailability);

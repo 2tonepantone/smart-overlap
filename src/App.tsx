@@ -1,42 +1,43 @@
 
 import './index.css';
-import TimeZoneSelect from './components/TimeZoneSelect';
-import AvailabilityInput from './components/AvailabilityInput';
-import ContactManager from './components/ContactManager';
-import OverlapGrid from './components/OverlapGrid';
+import TimeZoneSelect from './components/TimeZoneSelect.tsx';
+import AvailabilityInput from './components/AvailabilityInput.tsx';
+import ContactManager from './components/ContactManager.tsx';
+import OverlapGrid from './components/OverlapGrid.tsx';
 import { useState, useEffect } from 'react';
-import { loadState, saveState } from './utils/localStorage';
+import { loadState, saveState } from './utils/localStorage.ts';
+import { Availability, Person } from './types/types';
 
 function App() {
-  const [myTimeZone, setMyTimeZone] = useState(loadState('myTimeZone') || '');
-  const [myAvailability, setMyAvailability] = useState(loadState('myAvailability') || {});
-  const [contacts, setContacts] = useState(loadState('contacts') || []);
+  const [myTimeZone, setMyTimeZone] = useState<string>(loadState<string>('myTimeZone') || '');
+  const [myAvailability, setMyAvailability] = useState<Availability>(loadState<Availability>('myAvailability') || {});
+  const [contacts, setContacts] = useState<Person[]>(loadState<Person[]>('contacts') || []);
 
   useEffect(() => {
-    saveState('myTimeZone', myTimeZone);
+    saveState<string>('myTimeZone', myTimeZone);
   }, [myTimeZone]);
 
   useEffect(() => {
-    saveState('myAvailability', myAvailability);
+    saveState<Availability>('myAvailability', myAvailability);
   }, [myAvailability]);
 
   useEffect(() => {
-    saveState('contacts', contacts);
+    saveState<Person[]>('contacts', contacts);
   }, [contacts]);
 
-  const addContact = (contact) => {
+  const addContact = (contact: Person) => {
     setContacts([...contacts, contact]);
   };
 
-  const updateContact = (updatedContact) => {
-    setContacts(contacts.map(c => c.id === updatedContact.id ? updatedContact : c));
+  const updateContact = (updatedContact: Person) => {
+    setContacts(contacts.map((c: Person) => c.id === updatedContact.id ? updatedContact : c));
   };
 
-  const deleteContact = (contactId) => {
-    setContacts(contacts.filter(c => c.id !== contactId));
+  const deleteContact = (contactId: string) => {
+    setContacts(contacts.filter((c: Person) => c.id !== contactId));
   };
 
-  const allPeople = [
+  const allPeople: Person[] = [
     { id: 'self', name: 'Me', timeZone: myTimeZone, availability: myAvailability },
     ...contacts
   ];

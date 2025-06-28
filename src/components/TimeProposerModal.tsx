@@ -1,9 +1,15 @@
-
-import React from 'react';
 import styles from './TimeProposerModal.module.css';
 import { DateTime } from 'luxon';
+import { Person } from '../types/types';
 
-const TimeProposerModal = ({ selectedTime, people, onClose, onCopy }) => {
+interface TimeProposerModalProps {
+  selectedTime: DateTime | null;
+  people: Person[];
+  onClose: () => void;
+  onCopy: () => void;
+}
+
+const TimeProposerModal: React.FC<TimeProposerModalProps> = ({ selectedTime, people, onClose, onCopy }) => {
   if (!selectedTime) {
     return null;
   }

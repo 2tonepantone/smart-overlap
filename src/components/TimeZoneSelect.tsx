@@ -1,4 +1,3 @@
-
 import React from 'react';
 import styles from './TimeZoneSelect.module.css';
 
@@ -14,7 +13,12 @@ const timeZones = [
   'Australia/Sydney',
 ];
 
-const TimeZoneSelect = ({ selectedTimeZone, onChange }) => {
+interface TimeZoneSelectProps {
+  selectedTimeZone: string;
+  onChange: React.ChangeEventHandler<HTMLSelectElement>;
+}
+
+const TimeZoneSelect: React.FC<TimeZoneSelectProps> = ({ selectedTimeZone, onChange }) => {
   return (
     <select value={selectedTimeZone} onChange={onChange} className={styles.timeZoneSelect}>
       <option value="" disabled>Select your time zone</option>
