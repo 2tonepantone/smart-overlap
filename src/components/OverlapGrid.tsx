@@ -79,7 +79,9 @@ const OverlapGrid: React.FC<OverlapGridProps> = ({ people, days = 7 }) => {
                         className={`${styles.summaryCell} ${getCellClass(count)}`}
                         onClick={() => handleCellClick(date, timeSlots[index])}
                       >
-                        <span className={styles.timeDisplay}>{timeSlots[index]}</span>
+                        <span className={styles.timeDisplay}>
+                          {timeSlots[index]}
+                        </span>
                       </td>
                     ))}
                   </tr>

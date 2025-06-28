@@ -74,7 +74,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   color: #333; /* Adjust color as needed */
   font-weight: bold;
   font-size: 10px; /* Adjust font size as needed */
