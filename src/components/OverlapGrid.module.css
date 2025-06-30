@@ -91,3 +91,34 @@
 .individualUnavailable {
   background-color: var(--color-bg-mid);
 }
+
+.allAvailableHeader {
+  background-color: var(--color-primary-accent-light);
+  border-radius: var(--border-radius-sm);
+}
+
+.collapsedHeader {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  padding: var(--spacing-sm) 2px;
+  line-height: 1;
+}
+
+.collapsedCell {
+  cursor: default;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-bg-mid),
+    var(--color-bg-mid) 5px,
+    var(--color-bg-light) 5px,
+    var(--color-bg-light) 10px
+  );
+}
+
+.collapsedCell:hover {
+  transform: none;
+  box-shadow: none;
+}
