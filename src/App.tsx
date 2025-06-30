@@ -1,13 +1,14 @@
-import './index.css';
-import TimeZoneSelect from './components/TimeZoneSelect.tsx';
-import AvailabilityInput from './components/AvailabilityInput.tsx';
-import ContactManager from './components/ContactManager.tsx';
-import OverlapGrid from './components/OverlapGrid.tsx';
-import { useState, useEffect } from 'react';
-import { loadState, saveState } from './utils/localStorage.ts';
-import { Availability, Person } from './types/types';
+import React, { useState, useEffect } from 'react';
+import Layout from './components/Layout/Layout';
+import TimeZoneSelect from './components/TimeZoneSelect';
+import AvailabilityInput from './components/AvailabilityInput';
+import ContactManager from './components/ContactManager';
+import OverlapGrid from './components/OverlapGrid';
+import { loadState, saveState } from './utils/localStorage';
+import { Availability, Person, Page } from './types/types';
 
 function App() {
+  const [activePage, setActivePage] = useState<Page>('Grid');
   const [myTimeZone, setMyTimeZone] = useState<string>(
     loadState<string>('myTimeZone') || '',
   );
@@ -56,35 +57,49 @@ function App() {
     ...contacts,
   ];
 
-  return (
-    <div className="container">
-      <header>
-        <h1>Smart Overlap Scheduler</h1>
-        <p>Find the perfect time across time zones, hassle-free.</p>
-      </header>
-      <main>
-        <div className="config-section">
-          <div className="self-config">
-            <h2>Your Details</h2>
-            <TimeZoneSelect
-              selectedTimeZone={myTimeZone}
-              onChange={(e) => setMyTimeZone(e.target.value)}
-            />
-            <AvailabilityInput
-              availability={myAvailability}
-              onChange={setMyAvailability}
-            />
-          </div>
+  const renderPageContent = () => {
+    switch (activePage) {
+      case 'Grid':
+        return <OverlapGrid people={allPeople} />;
+      case 'People':
+        return (
           <ContactManager
             contacts={contacts}
             onAdd={addContact}
             onUpdate={updateContact}
             onDelete={deleteContact}
           />
-        </div>
-        <OverlapGrid people={allPeople} />
-      </main>
-    </div>
+        );
+      case 'Me':
+        return (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--spacing-lg)',
+            }}
+          >
+            <TimeZoneSelect
+              selectedTimeZone={myTimeZone}
+              onChange={setMyTimeZone}
+              label="My Time Zone"
+            />
+            <AvailabilityInput
+              availability={myAvailability}
+              onChange={setMyAvailability}
+              title="My Availability"
+            />
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Layout activePage={activePage} onPageChange={setActivePage}>
+      {renderPageContent()}
+    </Layout>
   );
 }
 

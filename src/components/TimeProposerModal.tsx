@@ -1,4 +1,6 @@
+import React, { useState } from 'react';
 import styles from './TimeProposerModal.module.css';
+import Modal from './Modal/Modal';
 import { DateTime } from 'luxon';
 import { Person } from '../types/types';
 
@@ -6,42 +8,71 @@ interface TimeProposerModalProps {
   selectedTime: DateTime | null;
   people: Person[];
   onClose: () => void;
-  onCopy: () => void;
 }
 
 const TimeProposerModal: React.FC<TimeProposerModalProps> = ({
   selectedTime,
   people,
   onClose,
-  onCopy,
 }) => {
+  const [copyButtonText, setCopyButtonText] = useState('Copy to Clipboard');
+
   if (!selectedTime) {
     return null;
   }
 
-  const proposalText = people
-    .map((person) => {
-      const localTime = selectedTime.setZone(person.timeZone);
-      return `${person.name}: ${localTime.toLocaleString(DateTime.DATETIME_FULL)}`;
-    })
-    .join('\n');
+  const getProposalText = () => {
+    return people
+      .map((person) => {
+        const localTime = selectedTime.setZone(person.timeZone);
+        return `${person.name}: ${localTime.toLocaleString(DateTime.DATETIME_FULL)}`;
+      })
+      .join('\n');
+  };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(proposalText);
-    onCopy();
+    navigator.clipboard.writeText(getProposalText());
+    setCopyButtonText('Copied!');
+    setTimeout(() => setCopyButtonText('Copy to Clipboard'), 2000);
   };
 
   return (
-    <div className={styles.modalBackdrop} onClick={onClose}>
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <h2>Proposed Time</h2>
-        <pre>{proposalText}</pre>
-        <div className={styles.modalActions}>
-          <button onClick={handleCopy}>Copy to Clipboard</button>
-          <button onClick={onClose}>Close</button>
-        </div>
+    <Modal
+      isOpen={!!selectedTime}
+      onClose={onClose}
+      title="Proposed Meeting Time"
+    >
+      <div className={styles.timeList}>
+        {people.map((person) => {
+          const localTime = selectedTime.setZone(person.timeZone);
+          return (
+            <div key={person.id} className={styles.timeEntry}>
+              <span className={styles.personName}>{person.name}</span>
+              <div className={styles.timeDetails}>
+                <div className={styles.localTime}>
+                  {localTime.toLocaleString(DateTime.TIME_SIMPLE)}
+                </div>
+                <div className={styles.timeZone}>
+                  {localTime.toLocaleString(DateTime.DATE_SHORT)} (
+                  {person.timeZone.replace(/_/g, ' ')})
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
-    </div>
+      <div className={styles.actions}>
+        <button onClick={onClose} className={styles.button}>
+          Close
+        </button>
+        <button
+          onClick={handleCopy}
+          className={`${styles.button} ${styles.copyButton}`}
+        >
+          {copyButtonText}
+        </button>
+      </div>
+    </Modal>
   );
 };
 

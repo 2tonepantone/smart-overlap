@@ -42,7 +42,7 @@ NO Meeting Invitation/Polling Tools: The "propose time" is a simple text output.
 3. Technical Stack & Conventions
    Frontend Framework: React (using Vite for project setup and development).
 
-Language: JavaScript (ES6+).
+   Language: TypeScript.
 
 Styling: Simple CSS Modules for component-level styling, augmented by a global src/index.css for app-wide defaults. Avoid external UI component libraries like Material-UI or Ant Design in this phase.
 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styles from './OverlapGrid.module.css';
 import { DateTime } from 'luxon';
-import { generateTimeSlots, isAvailable } from '../utils/timeUtils.ts';
-import TimeProposerModal from './TimeProposerModal.tsx';
+import { generateTimeSlots, isAvailable } from '../utils/timeUtils';
 import { Person } from '../types/types';
+import TimeProposerModal from './TimeProposerModal';
 
 interface OverlapGridProps {
   people: Person[];
@@ -17,106 +17,97 @@ const OverlapGrid: React.FC<OverlapGridProps> = ({ people, days = 7 }) => {
     return <p>Add yourself and some contacts to see the overlap.</p>;
   }
 
-  const timeSlots = generateTimeSlots();
+  const timeSlots = generateTimeSlots(30); // 30-minute intervals
   const today = DateTime.now();
   const weekDates = Array.from({ length: days }, (_, i) =>
     today.plus({ days: i }),
   );
 
-  const getCellClass = (availableCount: number): string => {
-    if (availableCount === people.length) {
-      return styles.allAvailable; // Green
-    }
-    if (availableCount >= people.length / 2) {
-      return styles.someAvailable; // Yellow
-    }
-    return styles.noneAvailable; // Red/Grey
+  const getSummaryCellClass = (availableCount: number): string => {
+    const total = people.length;
+    if (availableCount === total) return styles.allAvailable;
+    if (availableCount >= total * 0.75) return styles.majorityAvailable;
+    if (availableCount > 0) return styles.someAvailable;
+    return styles.noneAvailable;
   };
 
-  const handleCellClick = (date: DateTime, slot: string) => {
-    const [hour, minute] = slot.split(':').map(Number);
-    const dt = date.set({ hour, minute });
-    setSelectedTime(dt);
+  const handleCellClick = (dateTime: DateTime) => {
+    setSelectedTime(dateTime);
+    // Later, this will open the TimeProposerModal
+    console.log(`Selected time: ${dateTime.toISO()}`);
   };
 
   return (
     <div className={styles.gridContainer}>
-      <h2>Availability Grid</h2>
-      <div className={styles.gridScrollWrapper}>
-        <table className={styles.overlapGrid}>
-          <thead>
-            <tr>
-              <th className={styles.personHeader}>Person</th>
-              {timeSlots.map((slot) => (
-                <th key={slot}>{slot}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {weekDates.map((date) => {
-              const availabilityBySlot = timeSlots.map((slot) => {
-                const [hour, minute] = slot.split(':').map(Number);
-                const dt = date.set({ hour, minute });
-                return people.filter((person) => isAvailable(person, dt))
-                  .length;
-              });
+      <div className={styles.grid}>
+        {/* Header Row */}
+        <div className={`${styles.header} ${styles.personHeader}`}></div>
+        {timeSlots.map((slot, index) => (
+          <div key={slot} className={styles.header}>
+            {index % 2 === 0 ? slot : ''} {/* Show every other time slot */}
+          </div>
+        ))}
 
-              return (
-                <React.Fragment key={date.toISODate()}>
-                  <tr>
-                    <td
-                      colSpan={timeSlots.length + 1}
-                      className={styles.dateHeader}
-                    >
-                      {date.toLocaleString(DateTime.DATE_FULL)}
-                    </td>
-                  </tr>
-                  <tr className={styles.summaryRow}>
-                    <td className={styles.personHeader}>Overlap</td>
-                    {availabilityBySlot.map((count, index) => (
-                      <td
-                        key={index}
-                        className={`${styles.summaryCell} ${getCellClass(count)}`}
-                        onClick={() => handleCellClick(date, timeSlots[index])}
-                      >
-                        <span className={styles.timeDisplay}>
-                          {timeSlots[index]}
-                        </span>
-                      </td>
-                    ))}
-                  </tr>
-                  {people.map((person) => (
-                    <tr key={person.id || 'self'}>
-                      <td className={styles.personHeader}>{person.name}</td>
-                      {timeSlots.map((slot) => {
-                        const [hour, minute] = slot.split(':').map(Number);
-                        const dt = date.set({ hour, minute });
-                        const available = isAvailable(person, dt);
-                        return (
-                          <td
-                            key={slot}
-                            className={`${
-                              available ? styles.available : styles.unavailable
-                            } ${styles.personCell}`}
-                            onClick={() => handleCellClick(date, slot)}
-                          >
-                            <span className={styles.timeDisplay}>{slot}</span>
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))}
-                </React.Fragment>
-              );
-            })}
-          </tbody>
-        </table>
+        {/* Rows for each day */}
+        {weekDates.map((date) => (
+          <React.Fragment key={date.toISODate()}>
+            <div className={styles.dateHeader}>
+              {date.toLocaleString(DateTime.DATE_FULL)}
+            </div>
+
+            {/* Summary Row for the day */}
+            <div className={styles.row}>
+              <div className={`${styles.header} ${styles.personHeader}`}>
+                Overlap
+              </div>
+              {timeSlots.map((slot) => {
+                const dt = date.set({
+                  hour: parseInt(slot.split(':')[0]),
+                  minute: parseInt(slot.split(':')[1]),
+                });
+                const availableCount = people.filter((p) =>
+                  isAvailable(p, dt),
+                ).length;
+                return (
+                  <div
+                    key={slot}
+                    className={`${styles.cell} ${getSummaryCellClass(availableCount)}`}
+                    onClick={() => handleCellClick(dt)}
+                    title={`${availableCount} / ${people.length} available`}
+                  />
+                );
+              })}
+            </div>
+
+            {/* Individual Person Rows for the day */}
+            {people.map((person) => (
+              <div key={person.id} className={styles.row}>
+                <div className={`${styles.header} ${styles.personHeader}`}>
+                  {person.name}
+                </div>
+                {timeSlots.map((slot) => {
+                  const dt = date.set({
+                    hour: parseInt(slot.split(':')[0]),
+                    minute: parseInt(slot.split(':')[1]),
+                  });
+                  const available = isAvailable(person, dt);
+                  return (
+                    <div
+                      key={slot}
+                      className={`${styles.cell} ${available ? styles.individualAvailable : styles.individualUnavailable}`}
+                      title={available ? 'Available' : 'Unavailable'}
+                    />
+                  );
+                })}
+              </div>
+            ))}
+          </React.Fragment>
+        ))}
       </div>
       <TimeProposerModal
         selectedTime={selectedTime}
         people={people}
         onClose={() => setSelectedTime(null)}
-        onCopy={() => alert('Copied to clipboard!')}
       />
     </div>
   );

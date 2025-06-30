@@ -1,35 +1,84 @@
-.availabilityInput {
-  margin-top: 1.5rem;
+/* src/components/AvailabilityInput.module.css */
+.wrapper {
+  background-color: var(--color-bg-white);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--box-shadow-sm);
+  width: 100%;
+}
+
+.title {
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
 }
 
 .dayRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--spacing-md);
   align-items: center;
-  margin-bottom: 0.5rem;
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--color-bg-mid);
 }
 
-.dayRow label {
-  width: 120px;
-  display: flex;
-  align-items: center;
+.dayRow:last-child {
+  border-bottom: none;
 }
 
-.dayRow input[type='checkbox'] {
-  margin-right: 10px;
+.dayLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-primary-accent);
 }
 
 .timeInputs {
   display: flex;
   align-items: center;
+  gap: var(--spacing-sm);
 }
 
-.timeInputs input[type='time'] {
-  margin: 0 5px;
-  padding: 4px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.timeInput {
+  width: 120px;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-light);
+  text-align: center;
 }
 
-.timeInputs span {
-  color: #888;
+.timeInput:focus {
+  outline: none;
+  border-color: var(--color-primary-accent);
+  box-shadow: 0 0 0 3px rgba(77, 182, 172, 0.2);
+}
+
+.separator {
+  color: var(--color-text-light);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .dayRow {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .timeInputs {
+    justify-content: space-between;
+    padding-left: calc(20px + var(--spacing-md)); /* Align with checkbox */
+  }
+
+  .timeInput {
+    width: 45%;
+  }
 }

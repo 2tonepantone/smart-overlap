@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './AvailabilityInput.module.css';
+import { Availability } from '../types/types';
 
 const daysOfWeek = [
   'Monday',
@@ -11,22 +12,23 @@ const daysOfWeek = [
   'Sunday',
 ];
 
-import { Availability } from '../types/types';
-
 interface AvailabilityInputProps {
   availability: Availability;
   onChange: (availability: Availability) => void;
+  title?: string;
 }
 
 const AvailabilityInput: React.FC<AvailabilityInputProps> = ({
   availability,
   onChange,
+  title = 'Set Your Weekly Availability',
 }) => {
-  const handleDayChange = (day: string) => {
+  const handleDayToggle = (day: string) => {
     const newAvailability = { ...availability };
     if (newAvailability[day]) {
       delete newAvailability[day];
     } else {
+      // Default to a common availability window when enabling a day
       newAvailability[day] = { start: '09:00', end: '17:00' };
     }
     onChange(newAvailability);
@@ -37,41 +39,52 @@ const AvailabilityInput: React.FC<AvailabilityInputProps> = ({
     timeType: 'start' | 'end',
     value: string,
   ) => {
+    // Ensure the day is initialized before setting time
+    if (!availability[day]) return;
+
     const newAvailability = { ...availability };
-    newAvailability[day][timeType] = value;
+    newAvailability[day] = { ...newAvailability[day], [timeType]: value };
     onChange(newAvailability);
   };
 
   return (
-    <div className={styles.availabilityInput}>
-      <h3>Your Availability</h3>
-      {daysOfWeek.map((day) => (
-        <div key={day} className={styles.dayRow}>
-          <label>
-            <input
-              type="checkbox"
-              checked={!!availability[day]}
-              onChange={() => handleDayChange(day)}
-            />
-            {day}
-          </label>
-          {availability[day] && (
-            <div className={styles.timeInputs}>
+    <div className={styles.wrapper}>
+      <h3 className={styles.title}>{title}</h3>
+      <div>
+        {daysOfWeek.map((day) => (
+          <div key={day} className={styles.dayRow}>
+            <label className={styles.dayLabel}>
               <input
-                type="time"
-                value={availability[day].start}
-                onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
+                type="checkbox"
+                className={styles.checkbox}
+                checked={!!availability[day]}
+                onChange={() => handleDayToggle(day)}
               />
-              <span>-</span>
-              <input
-                type="time"
-                value={availability[day].end}
-                onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
-              />
-            </div>
-          )}
-        </div>
-      ))}
+              <span>{day}</span>
+            </label>
+
+            {availability[day] && (
+              <div className={styles.timeInputs}>
+                <input
+                  type="time"
+                  className={styles.timeInput}
+                  value={availability[day].start}
+                  onChange={(e) =>
+                    handleTimeChange(day, 'start', e.target.value)
+                  }
+                />
+                <span className={styles.separator}>to</span>
+                <input
+                  type="time"
+                  className={styles.timeInput}
+                  value={availability[day].end}
+                  onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
+                />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

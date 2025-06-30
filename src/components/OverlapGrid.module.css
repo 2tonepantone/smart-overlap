@@ -1,112 +1,93 @@
+/* src/components/OverlapGrid.module.css */
 .gridContainer {
-  margin-top: 2rem;
-}
-
-.gridScrollWrapper {
-  overflow-x: auto;
-  max-width: 100%;
-}
-
-.overlapGrid {
-  border-collapse: collapse;
   width: 100%;
-  min-width: 1200px; /* Ensure there's enough space for time slots */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-bg-white);
+  padding: var(--spacing-md);
 }
 
-.overlapGrid th,
-.overlapGrid td {
-  border: 1px solid #ddd;
-  padding: 4px;
+.grid {
+  display: grid;
+  /* 1fr for the person name, then 48 half-hour slots */
+  grid-template-columns: 150px repeat(48, 50px);
+  gap: 2px;
+}
+
+.header {
+  font-weight: 500;
+  font-size: 0.75rem;
   text-align: center;
-  font-size: 12px;
-  min-width: 50px;
-}
-
-.overlapGrid th {
-  background-color: #f2f2f2;
   position: sticky;
   top: 0;
-  z-index: 2;
-}
-
-.dateHeader {
-  background-color: #e9ecef;
-  font-weight: bold;
-  text-align: left !important;
-  padding: 8px 12px !important;
-  position: sticky;
-  top: 38px; /* Height of the time slot headers */
-  z-index: 2;
+  background-color: var(--color-bg-white);
+  z-index: 10;
+  padding: var(--spacing-sm) 0;
 }
 
 .personHeader {
-  font-weight: bold;
-  text-align: left !important;
-  padding: 8px 12px !important;
   position: sticky;
   left: 0;
-  background-color: #f8f9fa;
-  z-index: 1;
+  z-index: 20;
+  text-align: left;
+  padding-left: var(--spacing-md);
+  font-weight: 600;
+  font-size: 0.875rem;
 }
 
-.available {
-  background-color: #d4edda; /* Light green */
+.dateHeader {
+  grid-column: 1 / -1; /* Span all columns */
+  text-align: left;
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-mid);
+  font-weight: 600;
+  position: sticky;
+  top: 35px; /* Height of time header */
+  z-index: 10;
 }
 
-.unavailable {
-  background-color: #f8d7da; /* Light red */
+.row {
+  display: contents; /* Allows us to treat children as direct grid items */
 }
 
-.summaryRow td {
-  height: 10px; /* Make summary cells shorter */
-  padding: 0;
-}
-
-.summaryCell {
-  border: none !important;
-  position: relative; /* For positioning the time display */
-  overflow: hidden; /* Hide overflow content */
-}
-
-.timeDisplay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
+.cell {
+  height: 40px;
+  border-radius: 2px;
+  cursor: pointer;
   transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-  color: #333; /* Adjust color as needed */
-  font-weight: bold;
-  font-size: 10px; /* Adjust font size as needed */
-  pointer-events: none; /* Allow clicks to pass through */
-  white-space: nowrap; /* Prevent wrapping */
+    transform 150ms ease-in-out,
+    box-shadow 150ms ease-in-out;
 }
 
-.summaryCell:hover .timeDisplay {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1.2); /* Animate scale on hover */
+.cell:hover {
+  transform: scale(1.1);
+  box-shadow: var(--box-shadow-md);
+  z-index: 5;
 }
 
+/* Color key classes */
 .allAvailable {
-  background-color: #28a745; /* Green */
+  background-color: #4caf50; /* Green */
 }
 
-.someAvailable {
+.majorityAvailable {
   background-color: #ffc107; /* Yellow */
 }
 
+.someAvailable {
+  background-color: #ff9800; /* Orange */
+}
+
 .noneAvailable {
-  background-color: #dc3545; /* Red */
+  background-color: #f44336; /* Red */
 }
 
-.personCell {
-  position: relative;
-  overflow: hidden;
+.individualAvailable {
+  background-color: var(--color-primary-accent-light);
 }
 
-.personCell:hover .timeDisplay {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1.2);
+.individualUnavailable {
+  background-color: var(--color-bg-mid);
 }

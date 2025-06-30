@@ -1,10 +1,12 @@
-export interface Availability {
-  [day: string]: { start: string; end: string };
-}
+export type Availability = {
+  [key: string]: { start: string; end: string };
+};
 
-export interface Person {
+export type Person = {
   id: string;
   name: string;
   timeZone: string;
   availability: Availability;
-}
+};
+
+export type Page = 'Grid' | 'People' | 'Me';

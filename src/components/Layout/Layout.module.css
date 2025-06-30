@@ -1,0 +1,37 @@
+/* src/components/Layout/Layout.module.css */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg-light);
+}
+
+.main {
+  flex-grow: 1;
+  padding: var(--spacing-md);
+  width: 100%;
+  max-width: 1400px; /* Max width for large screens */
+  margin: 0 auto;
+}
+
+/* Mobile-first: The layout is a single column by default. 
+   The main content area will be below the header/nav. */
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .layout {
+    flex-direction: row;
+  }
+
+  .main {
+    padding: var(--spacing-lg);
+    margin-left: 240px; /* Placeholder for the sidebar width */
+  }
+}
+
+/* Desktop and very large screens */
+@media (min-width: 1200px) {
+  .main {
+    padding: var(--spacing-xl);
+  }
+}
